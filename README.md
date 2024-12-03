@@ -1,13 +1,20 @@
 # Sistema de Doação de Sangue
 
-## Descrição do Projeto
-É um sistema desenvolvido para conectar doadores e receptores de sangue, facilitando a gestão e a doação de sangue em hemocentros e hospitais. Através deste sistema, buscamos aumentar a eficiência no processo de doação e, assim, salvar vidas.
+O Sistema de Doação de Sangue é uma aplicação que permite gerenciar informações de doadores e receptores de sangue. O objetivo é implementar um sistema funcional que utilize operações CRUD (Create, Read, Update, Delete) para registrar e consultar dados de doadores e receptores.
 
-## Objetivos
-- **Facilitar o cadastro de doadores e receptores.**
-- **Promover a interação entre hemocentros e a comunidade.**
-- **Contribuir para o aumento do estoque de sangue nos hospitais.**
+## Funcionalidades
+- **Cadastro de doadores e receptores:** Registro de dados básicos do doador e receptor.
+- **Consulta de registros:** Listagem e filtragem dos doadores e receptores cadastrados.
+- **Edição de registros:** Atualização das informações cadastradas.
+- **Exclusão de registros:** Remoção de doadores ou receptores.
+
+## Tecnologias Utilizadas
+- **Backend:** FastAPI
+- **Frontend:** Flask 
+- **Banco de Dados:** PostgreSQL 
+- **Containers:** Docker 
+- **Testes API:** Postman
 
 ## Autores
-- Amanda Silva Guimarães - amanda.silva@gec.inatel.br
-- Pedro Henrique de Souza - pedro.souza@gec.inatel.br
+- **Amanda Silva Guimarães** - amanda.silva@gec.inatel.br
+- **Pedro Henrique de Souza** - pedro.souza@gec.inatel.br
