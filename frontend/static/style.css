@@ -1,127 +1,70 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9fafb;
-    color: #444;
+    background-color: #f8f9fa;
+    color: #333;
     margin: 0;
     padding: 0;
-    line-height: 1.6;
 }
 
 header {
-    background-color: #b22222; /* Vermelho para representar doação de sangue */
+    background-color: #d9534f; 
     color: white;
     padding: 1em 0;
     text-align: center;
-    font-size: 1.5em;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 header h1 {
-    margin: 0;
+    font-size: 2.5em;
     font-weight: bold;
-}
-
-nav {
-    margin-top: 10px;
 }
 
 nav a {
     margin: 0 15px;
     color: white;
     text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
+    font-size: 1.1em;
 }
 
 nav a:hover {
-    color: #ffcccb;
+    text-decoration: underline;
 }
 
 section {
-    margin: 20px auto;
+    margin: 20px;
     padding: 20px;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
 }
 
 h1, h2 {
-    margin-bottom: 15px;
-    color: #b22222;
+    margin-bottom: 10px;
+    color: #d9534f; 
 }
 
-h1 {
-    font-size: 2em;
-}
-
-h2 {
-    font-size: 1.5em;
-}
-
-button {
-    background-color: #b22222;
+button, input[type="submit"] {
+    background-color: #d9534f; 
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
+    font-size: 1.1em;
 }
 
-button:hover {
-    background-color: #a00;
+button:hover, input[type="submit"]:hover {
+    background-color: #c9302c; 
 }
 
-input, select, textarea {
+input, select {
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
+    margin-top: 5px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 1em;
 }
 
-input:focus, select:focus, textarea:focus {
-    border-color: #b22222;
+input:focus, select:focus {
+    border-color: #d9534f; 
     outline: none;
-    box-shadow: 0 0 5px rgba(178, 34, 34, 0.3);
 }
-
-footer {
-    text-align: center;
-    background-color: #333;
-    color: white;
-    padding: 10px 0;
-    margin-top: 20px;
-    font-size: 0.9em;
-}
-
-footer p {
-    margin: 0;
-}
-
-.btn-container {
-    display: flex;
-    justify-content: center; /* Centraliza os itens horizontalmente */
-    gap: 20px; /* Espaçamento horizontal entre os botões */
-    margin-top: 20px; /* Espaçamento superior do contêiner */
-}
-
-.btn {
-    padding: 10px 20px;
-    text-decoration: none;
-    color: white;
-    background-color: #d9534f; /* Vermelho Bootstrap */
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.btn:hover {
-    background-color: #c9302c; /* Vermelho mais escuro no hover */
-    color: white;
-}
-
-
