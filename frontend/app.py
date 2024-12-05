@@ -10,7 +10,7 @@ API_BASE_URL = "http://backend:8000"
 # Rota para a página inicial
 @app.route('/')
 def index():
-    return render_template('home.html')
+    return render_template('index.html')
 
 # Rota para exibir o formulário de cadastro de doador
 @app.route('/cadastro', methods=['GET'])
@@ -21,19 +21,19 @@ def inserir_doador_form():
 @app.route('/inserir', methods=['POST'])
 def inserir_doador():
     nome = request.form['nome']
+    email = request.form['email']
     telefone = request.form['telefone']
     tipo_sanguineo = request.form['tipo_sanguineo']
-    sexo = request.form['sexo']
-    idade = request.form['idade']
-    cidade = request.form['cidade']
+    data_nascimento = request.form['data_nascimento']
+    endereco = request.form['endereco']
     
     payload = {
         'nome': nome,
+        'email': email,
         'telefone': telefone,
         'tipo_sanguineo': tipo_sanguineo,
-        'sexo': sexo,
-        'idade': idade,
-        'cidade': cidade
+        'data_nascimento': data_nascimento,
+        'endereco': endereco
     }
 
     response = requests.post(f'{API_BASE_URL}/api/v1/doadores/', json=payload)
@@ -41,10 +41,10 @@ def inserir_doador():
     if response.status_code == 201:
         return redirect(url_for('listar_doadores'))
     else:
-        return "Erro ao cadastrar doador", 500
+        return "Erro ao inserir doador", 500
 
 # Rota para listar todos os doadores
-@app.route('/doadores', methods=['GET'])
+@app.route('/banco', methods=['GET'])
 def listar_doadores():
     response = requests.get(f'{API_BASE_URL}/api/v1/doadores/')
     try:
@@ -67,19 +67,20 @@ def atualizar_doador_form(doador_id):
 @app.route('/atualizar/<int:doador_id>', methods=['POST'])
 def atualizar_doador(doador_id):
     nome = request.form['nome']
+    email = request.form['email']
     telefone = request.form['telefone']
     tipo_sanguineo = request.form['tipo_sanguineo']
-    sexo = request.form['sexo']
-    idade = request.form['idade']
-    cidade = request.form['cidade']
+    data_nascimento = request.form['data_nascimento']
+    endereco = request.form['endereco']
     
     payload = {
+        'id': doador_id,
         'nome': nome,
+        'email': email,
         'telefone': telefone,
         'tipo_sanguineo': tipo_sanguineo,
-        'sexo': sexo,
-        'idade': idade,
-        'cidade': cidade
+        'data_nascimento': data_nascimento,
+        'endereco': endereco
     }
 
     response = requests.patch(f"{API_BASE_URL}/api/v1/doadores/{doador_id}", json=payload)
@@ -89,9 +90,9 @@ def atualizar_doador(doador_id):
     else:
         return "Erro ao atualizar doador", 500
 
-# Rota para registrar a doação de sangue
+# Rota para exibir o formulário de doação
 @app.route('/doar/<int:doador_id>', methods=['GET'])
-def doar_sangue_form(doador_id):
+def doar_doador_form(doador_id):
     response = requests.get(f"{API_BASE_URL}/api/v1/doadores/")
     doadores = [doador for doador in response.json() if doador['id'] == doador_id]
     if len(doadores) == 0:
@@ -99,9 +100,9 @@ def doar_sangue_form(doador_id):
     doador = doadores[0]
     return render_template('doar.html', doador=doador)
 
-# Rota para registrar a doação de sangue
+# Rota para doar sangue
 @app.route('/doar/<int:doador_id>', methods=['POST'])
-def doar_sangue(doador_id):
+def doar_doador(doador_id):
     tipo_sanguineo = request.form['tipo_sanguineo']
 
     payload = {
@@ -113,7 +114,7 @@ def doar_sangue(doador_id):
     if response.status_code == 200:
         return redirect(url_for('listar_doadores'))
     else:
-        return "Erro ao registrar doação", 500
+        return "Erro ao doar sangue", 500
 
 # Rota para listar todas as doações
 @app.route('/doacoes', methods=['GET'])
@@ -123,7 +124,6 @@ def listar_doacoes():
         doacoes = response.json()
     except:
         doacoes = []
-    # Salvando o total das doações
     total_doacoes = 0
     for doacao in doacoes:
         total_doacoes += float(doacao['tipo_sanguineo'])
@@ -139,6 +139,15 @@ def excluir_doador(doador_id):
     else:
         return "Erro ao excluir doador", 500
 
+# Rota para resetar o database
+@app.route('/reset-database', methods=['GET'])
+def resetar_database():
+    response = requests.delete(f"{API_BASE_URL}/api/v1/doadores/")
+    
+    if response.status_code == 200:
+        return render_template('confirmacao.html')
+    else:
+        return "Erro ao resetar o database", 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000, host='0.0.0.0')
