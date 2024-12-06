@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from typing import List, Optional
+from datetime import datetime
 import time
 import asyncpg
 import os
@@ -20,19 +21,14 @@ class Doador(BaseModel):
     email: str
     telefone: str
     tipo_sanguineo: str
-    data_nascimento: str
+    data_nascimento: datetime
     endereco: str
 
-# Modelo para adicionar novos receptores
-class Receptor(BaseModel):
+class Doacoes(BaseModel):
     id: Optional[int] = None
-    nome: str
-    email: str
-    telefone: str
+    nome_doador: str
     tipo_sanguineo: str
-    data_nascimento: str
-    endereco: str
-    necessidade_sangue: bool
+    data_doacao: datetime
 
 # Middleware para logging
 @app.middleware("http")
@@ -52,13 +48,14 @@ async def adicionar_doador(doador: Doador):
         INSERT INTO doadores (nome, email, telefone, tipo_sanguineo, data_nascimento, endereco)
         VALUES ($1, $2, $3, $4, $5, $6)
         """
+
         async with conn.transaction():
             await conn.execute(
                 query, 
                 doador.nome, doador.email, doador.telefone, doador.tipo_sanguineo, 
                 doador.data_nascimento, doador.endereco
             )
-        return {"message": "Doador adicionado com sucesso!"}
+            return {"message": "Doador adicionado com sucesso!"}
     finally:
         await conn.close()
 
@@ -74,58 +71,80 @@ async def listar_doadores():
     finally:
         await conn.close()
 
-# 3. Adicionar um novo receptor
-@app.post("/api/v1/receptores/", status_code=201)
-async def adicionar_receptor(receptor: Receptor):
+
+# 3. Buscar doador por ID
+@app.get("/api/v1/doadores/{doador_id}")
+async def listar_doadores_por_id(doador_id: int):
     conn = await get_database()
     try:
-        query = """
-        INSERT INTO receptores (nome, email, telefone, tipo_sanguineo, data_nascimento, endereco, necessidade_sangue)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        # Buscar o doador por ID
+        query = "SELECT * FROM doadores WHERE id = $1"
+        doador = await conn.fetchrow(query, doador_id)
+        if doador is None:
+            raise HTTPException(status_code=404, detail="Doador não encontrado.")
+        return dict(doador)
+    finally:
+        await conn.close()
+
+# 4. Remover um doador pelo ID
+@app.delete("/api/v1/doadores/{doador_id}")
+async def remover_doador(doador_id: int):
+    conn = await get_database()
+    try:
+        # Verificar se o doador existe
+        query = "SELECT * FROM doadores WHERE id = $1"
+        doador = await conn.fetchrow(query, doador_id)
+        if doador is None:
+            raise HTTPException(status_code=404, detail="Doador não encontrado.")
+        # Remover o doador do banco de dados
+        delete_query = "DELETE FROM doadores WHERE id = $1"
+        await conn.execute(delete_query, doador_id)
+        return {"message": "Doador removido com sucesso!"}
+    finally:
+        await conn.close()
+
+@app.post("/api/v1/doadores/{doador_id}/doar/")
+async def adicionar_doacao(doador_id: int, doacao: Doacoes):
+    conn = await get_database()
+    try:
+        # Verificar se o doador existe
+        query = "SELECT * FROM doadores WHERE id = $1"
+        doador = await conn.fetchrow(query, doador_id)
+        if doador is None:
+            raise HTTPException(status_code=404, detail="Doador não encontrado.")
+        data_doacao = datetime.now()
+        # Registrar a doacao na tabela de doacoes
+        insert_doacao_query = """
+            INSERT INTO doacoes (nome_doador, tipo_sanguineo, data_doacao) 
+            VALUES ($1, $2, $3)
         """
-        async with conn.transaction():
-            await conn.execute(
-                query, 
-                receptor.nome, receptor.email, receptor.telefone, receptor.tipo_sanguineo, 
-                receptor.data_nascimento, receptor.endereco, receptor.necessidade_sangue
-            )
-        return {"message": "Receptor adicionado com sucesso!"}
+        await conn.execute(insert_doacao_query, doacao.nome_doador, doacao.tipo_sanguineo, data_doacao)
+        return {"message": "Doação realizada com sucesso!"}
     finally:
         await conn.close()
 
-# 4. Listar todos os receptores
-@app.get("/api/v1/receptores/", response_model=List[Receptor])
-async def listar_receptores():
+@app.get("/api/v1/doacoes/")
+async def listar_doacoes():
     conn = await get_database()
     try:
-        query = "SELECT * FROM receptores"
+        # Buscar todas as doacoes no banco de dados
+        query = "SELECT * FROM doacoes"
         rows = await conn.fetch(query)
-        receptores = [dict(row) for row in rows]
-        return receptores
-    finally:
-        await conn.close()
-
-# 5. Atualizar a necessidade de sangue de um receptor
-@app.patch("/api/v1/receptores/{receptor_id}")
-async def atualizar_necessidade_sangue(receptor_id: int, necessidade_sangue: bool):
-    conn = await get_database()
-    try:
-        query = "UPDATE receptores SET necessidade_sangue = $1 WHERE id = $2"
-        await conn.execute(query, necessidade_sangue, receptor_id)
-        return {"message": "Necessidade de sangue atualizada com sucesso!"}
+        doacoes = [dict(row) for row in rows]
+        return doacoes
     finally:
         await conn.close()
 
 # Resetar banco de dados
 @app.delete("/api/v1/reset-database/")
 async def reset_database():
-    init_sql_path = os.getenv("INIT_SQL", "db/init.sql")
+    init_sql = os.getenv("INIT_SQL", "db/init.sql")
     conn = await get_database()
     try:
-        with open(init_sql_path, "r") as file:
+        with open(init_sql, "r") as file:
             sql_commands = file.read()
         
         await conn.execute(sql_commands)
-        return {"message": "Banco de dados resetado com sucesso!"}
+        return {"message": "Banco de dados limpo com sucesso!"}
     finally:
         await conn.close()
