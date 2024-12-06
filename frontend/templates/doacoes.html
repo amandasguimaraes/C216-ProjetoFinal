@@ -1,54 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Banco de Doações</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
         <div class="container-fluid">
-        <a class="navbar-brand" href="#">Banco de Doações</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-                <a class="nav-link" href="/cadastro">Cadastro</a>
-                <a class="nav-link" href="/banco">Banco</a>
-                <a class="nav-link" href="/doacoes">Doações</a>
+            <a class="navbar-brand" href="/">Sistema de Doação de Sangue</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav mx-auto">
+                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/cadastro">Cadastro</a>
+                    <a class="nav-link" href="/banco">Banco</a>
+                    <a class="nav-link" href="/doacoes">Doações</a>
+                </div>
             </div>
         </div>
-        </div>
     </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Histórico de Doações</h2>
+        
+        {% if doacoes %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nome do Doador</th>
+                        <th>Tipo Sanguíneo</th>
+                        <th>Data da Doação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doacao in doacoes %}
+                    <tr>
+                        <td>{{ doacao.nome_doador }}</td>
+                        <td>{{ doacao.tipo_sanguineo }}</td>
+                        <td>{{ doacao.data_doacao }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="font-weight-bold">
+                        <td colspan="2">Total de Doações:</td>
+                        <td>{{ total_doacoes }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-warning text-center">
+            Nenhuma doação encontrada.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2024 Sistema de Doação de Sangue | Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    {% if doacoes %}
-    <table border="1" class="table">
-        <thead>
-            <tr>
-                <th>Nome do Doador</th>
-                <th>Tipo Sanguíneo</th>
-                <th>Data da Doação</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for doacao in doacoes %}
-            <tr>
-                <td>{{ doacao.nome_doador }}</td>
-                <td>{{ doacao.tipo_sanguineo }}</td>
-                <td>{{ doacao.data_doacao }}</td>
-            </tr>
-            {% endfor %}
-            <tr>
-                <td colspan="2">Total:</td>
-                <td>{{ total_doacoes }}</td>
-            </tr>
-        </tbody>
-    </table>
-    {% else %}
-    <p class="text-center">Nenhuma doação encontrada.</p>
-    {% endif %}
 </body>
 </html>

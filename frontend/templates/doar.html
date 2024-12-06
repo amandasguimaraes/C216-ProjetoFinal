@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doar Sangue</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Doar Sangue</a>
+            <a class="navbar-brand" href="/">Sistema de Doação de Sangue</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                <div class="navbar-nav mx-auto">
+                    <a class="nav-link" href="/">Home</a>
                     <a class="nav-link" href="/cadastro">Cadastro</a>
                     <a class="nav-link" href="/banco">Banco</a>
                     <a class="nav-link" href="/doacoes">Doações</a>
@@ -23,24 +24,38 @@
             </div>
         </div>
     </nav>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <div class="container-fluid">
-        <h3>Doar Sangue</h3>
-        <p>nome: {{ doador.nome }}</p>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h3 class="text-center mb-4">Confirme Seu Tipo Sanguíneo</h3>
+        
+        <div class="alert alert-info text-center" role="alert">
+            Por favor, confira o seu tipo sanguíneo antes de realizar a doação.
+        </div>
+
+        <p><strong>Nome do Doador:</strong> {{ doador.nome }}</p>
+        <p><strong>Tipo Sanguíneo Selecionado:</strong> <span class="fw-bold">{{ doador.tipo_sanguineo }}</span></p>
+
         <form action="/doar/{{ doador.id }}" method="POST">
-            <label for="tipo_sanguineo" class="form-label">Tipo Sanguíneo:</label><br>
-            <select class="form-select" id="tipo_sanguineo" name="tipo_sanguineo" required>
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-            </select>
-            <input type="submit" value="Doar Sangue" class="btn btn-primary">
+            <div class="mb-3">
+                <!-- Removed the dropdown, just displaying the selected type -->
+                <label for="nome_doador" class="form-label">Nome Doador:</label>
+                <input type="text" class="form-control" id="nome_doador" name="nome_doador" value="{{ doador.nome }}" readonly>
+                <label for="tipo_sanguineo" class="form-label">Tipo Sanguíneo:</label>
+                <input type="text" class="form-control" id="tipo_sanguineo" name="tipo_sanguineo" value="{{ doador.tipo_sanguineo }}" readonly>
+            </div>
+            <div class="d-grid gap-2">
+                <input type="submit" value="Confirmar Doação" class="btn btn-danger btn-lg">
+            </div>
         </form>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2024 Sistema de Doação de Sangue | Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
