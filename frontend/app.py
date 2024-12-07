@@ -106,7 +106,7 @@ def doar_doador_form(doador_id):
 def doar_doador(doador_id):
     nome_doador = request.form['nome_doador']
     tipo_sanguineo = request.form['tipo_sanguineo']
-    data_doacao = '2024-12-05'
+    data_doacao = datetime.now().strftime('%m/%d/%Y')
 
     payload = {
         'nome_doador': nome_doador,
@@ -114,7 +114,7 @@ def doar_doador(doador_id):
         'data_doacao': data_doacao
     }
 
-    response = requests.post(f"{API_BASE_URL}/api/v1/doadores/{doador_id}/doar/", json=payload)
+    response = requests.put(f"{API_BASE_URL}/api/v1/doadores/{doador_id}/doar/", json=payload)
     
     if response.status_code == 200:
         return redirect(url_for('listar_doadores'))

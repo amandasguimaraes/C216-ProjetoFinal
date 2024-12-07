@@ -33,9 +33,6 @@
             Por favor, confira o seu tipo sanguíneo antes de realizar a doação.
         </div>
 
-        <p><strong>Nome do Doador:</strong> {{ doador.nome }}</p>
-        <p><strong>Tipo Sanguíneo Selecionado:</strong> <span class="fw-bold">{{ doador.tipo_sanguineo }}</span></p>
-
         <form action="/doar/{{ doador.id }}" method="POST">
             <div class="mb-3">
                 <!-- Removed the dropdown, just displaying the selected type -->
