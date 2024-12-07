@@ -16,5 +16,5 @@ O Sistema de Doação de Sangue é uma aplicação que permite gerenciar informa
 - **Testes API:** Postman
 
 ## Autores
-- **Amanda Silva Guimarães** - amanda.silva@gec.inatel.br
-- **Pedro Henrique de Souza** - pedro.souza@gec.inatel.br
+- **Amanda Silva Guimarães** - 1684 - amanda.silva@gec.inatel.br
+- **Pedro Henrique de Souza** - 1721 - pedro.souza@gec.inatel.br
