@@ -7,7 +7,7 @@ CREATE TABLE "doadores" (
     "email" VARCHAR(255) NOT NULL,
     "telefone" VARCHAR(20) NOT NULL,
     "tipo_sanguineo" VARCHAR(3) NOT NULL,
-    "data_nascimento" DATE NOT NULL,
+    "data_nascimento" VARCHAR(255) NOT NULL,
     "endereco" TEXT NOT NULL
 );
 
@@ -15,7 +15,7 @@ CREATE TABLE "doacoes" (
     "id" SERIAL PRIMARY KEY,
     "nome_doador" VARCHAR(255) NOT NULL,
     "tipo_sanguineo" VARCHAR(3) NOT NULL,
-    "data_doacao" DATE NOT NULL
+    "data_doacao" VARCHAR(255) NOT NULL
 );
 
 INSERT INTO "doadores" ("nome", "email", "telefone", "tipo_sanguineo", "data_nascimento", "endereco") 

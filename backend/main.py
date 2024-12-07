@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from typing import List, Optional
-from datetime import datetime
+from datetime import date
 import time
 import asyncpg
 import os
@@ -21,14 +21,22 @@ class Doador(BaseModel):
     email: str
     telefone: str
     tipo_sanguineo: str
-    data_nascimento: datetime
+    data_nascimento: str
     endereco: str
 
 class Doacoes(BaseModel):
     id: Optional[int] = None
     nome_doador: str
     tipo_sanguineo: str
-    data_doacao: datetime
+    data_doacao: str
+
+class AtualizarDoador(BaseModel):
+    nome: Optional[str] = None
+    email: Optional[str] = None
+    telefone: Optional[str] = None
+    tipo_sanguineo: Optional[str] = None
+    data_nascimento: Optional[str] = None
+    endereco: Optional[str] = None
 
 # Middleware para logging
 @app.middleware("http")
@@ -103,7 +111,42 @@ async def remover_doador(doador_id: int):
     finally:
         await conn.close()
 
-@app.post("/api/v1/doadores/{doador_id}/doar/")
+# 5. Atualizar atributos de um doador pelo ID (exceto o ID)
+@app.patch("/api/v1/doadores/{doador_id}")
+async def atualizar_doador(doador_id: int, doador_atualizacao: AtualizarDoador):
+    conn = await get_database()
+    try:
+        # Verificar se o doador existe
+        query = "SELECT * FROM doadores WHERE id = $1"
+        doador = await conn.fetchrow(query, doador_id)
+        if doador is None:
+            raise HTTPException(status_code=404, detail="Doador não encontrado.")
+        # Atualizar apenas os campos fornecidos
+        update_query = """
+            UPDATE doadores
+            SET nome = COALESCE($1, nome),
+                email = COALESCE($2, email),
+                telefone = COALESCE($3, telefone),
+                tipo_sanguineo = COALESCE($4, tipo_sanguineo),
+                data_nascimento = COALESCE($5, data_nascimento),
+                endereco = COALESCE($6, endereco)
+            WHERE id = $7
+        """
+        await conn.execute(
+            update_query,
+            doador_atualizacao.nome,
+            doador_atualizacao.email,
+            doador_atualizacao.telefone,
+            doador_atualizacao.tipo_sanguineo,
+            doador_atualizacao.data_nascimento,
+            doador_atualizacao.endereco,
+            doador_id
+        )
+        return {"message": "Doador atualizado com sucesso!"}
+    finally:
+        await conn.close()
+
+@app.put("/api/v1/doadores/{doador_id}/doar/")
 async def adicionar_doacao(doador_id: int, doacao: Doacoes):
     conn = await get_database()
     try:
@@ -112,13 +155,13 @@ async def adicionar_doacao(doador_id: int, doacao: Doacoes):
         doador = await conn.fetchrow(query, doador_id)
         if doador is None:
             raise HTTPException(status_code=404, detail="Doador não encontrado.")
-        data_doacao = datetime.now()
+
         # Registrar a doacao na tabela de doacoes
         insert_doacao_query = """
             INSERT INTO doacoes (nome_doador, tipo_sanguineo, data_doacao) 
             VALUES ($1, $2, $3)
         """
-        await conn.execute(insert_doacao_query, doacao.nome_doador, doacao.tipo_sanguineo, data_doacao)
+        await conn.execute(insert_doacao_query, doacao.nome_doador, doacao.tipo_sanguineo, doacao.data_doacao)
         return {"message": "Doação realizada com sucesso!"}
     finally:
         await conn.close()
