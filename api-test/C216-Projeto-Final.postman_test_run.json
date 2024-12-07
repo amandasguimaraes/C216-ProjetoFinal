@@ -1,0 +1,398 @@
+{
+	"id": "d1e93548-47df-42c8-afa1-d90878e93f9c",
+	"name": "C216-Projeto-Final",
+	"timestamp": "2024-12-07T19:54:34.366Z",
+	"collection_id": "21177026-d179125d-c6dd-4150-88d3-9b6cc2b0d445",
+	"folder_id": 0,
+	"environment_id": "21177026-52ac7c7c-4d2e-42d4-8b1f-bbf065d7c8a5",
+	"totalPass": 21,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-12-07T19:54:33.341Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "166bb919-7f4e-458d-b81c-ded4f2cfde0b",
+			"name": "DELETE - Remover Todos os Doadores (RESETAR BANCO DE DADOS)",
+			"url": "http://127.0.0.1:8000/api/v1/reset-database/",
+			"time": 67,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm deletion": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm deletion": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				67
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm deletion": true
+				}
+			]
+		},
+		{
+			"id": "aeb9c40e-97e4-4f7e-ade8-a1f99e4d10f2",
+			"name": "GET - Listar todos os doadores",
+			"url": "http://127.0.0.1:8000/api/v1/doadores/",
+			"time": 23,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should be a list": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should be a list": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				23
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should be a list": true
+				}
+			]
+		},
+		{
+			"id": "872ad27a-7515-41e4-972a-9705db32d0b5",
+			"name": "GET - Buscar Doador por ID",
+			"url": "http://127.0.0.1:8000/api/v1/doadores/2",
+			"time": 25,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should contain doador details": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should contain doador details": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				25
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should contain doador details": true
+				}
+			]
+		},
+		{
+			"id": "ee2be369-eff9-4748-8e11-c4773fbbb7fc",
+			"name": "POST - Adicionar um Doador",
+			"url": "http://127.0.0.1:8000/api/v1/doadores/",
+			"time": 24,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Response should contain confirmation message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should contain confirmation message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				24
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Response should contain confirmation message": true
+				}
+			]
+		},
+		{
+			"id": "a3088dce-d14f-4b21-ab91-b8869c936e4e",
+			"name": "PUT - Realizar Doação",
+			"url": "http://127.0.0.1:8000/api/v1/doadores/1/doar/",
+			"time": 23,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm sale": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm sale": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				23
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm sale": true
+				}
+			]
+		},
+		{
+			"id": "0ba6d428-a3b6-498f-a7f9-68e687cda133",
+			"name": "GET - Listar todas as doações",
+			"url": "http://127.0.0.1:8000/api/v1/doacoes/",
+			"time": 22,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				22
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "5c84b818-9cb9-4503-8573-c59d90471326",
+			"name": "PATCH - Atualizar telefone de um Doador",
+			"url": "http://127.0.0.1:8000/api/v1/doadores/2",
+			"time": 24,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm update": true,
+				"Os atributos do doador foram atualizados": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm update": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Os atributos do doador foram atualizados": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				24
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm update": true,
+					"Os atributos do doador foram atualizados": true
+				}
+			]
+		},
+		{
+			"id": "1e14ae0a-1a41-4fe6-a96c-41d575202f85",
+			"name": "PATCH - Atualizar endereco de um Doador",
+			"url": "http://127.0.0.1:8000/api/v1/doadores/2",
+			"time": 24,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm update": true,
+				"Os atributos do doador foram atualizados": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm update": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Os atributos do doador foram atualizados": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				24
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm update": true,
+					"Os atributos do doador foram atualizados": true
+				}
+			]
+		},
+		{
+			"id": "66f9534a-4ae3-4983-986b-beb431cd7d69",
+			"name": "DELETE - Remover um Doador",
+			"url": "http://127.0.0.1:8000/api/v1/doadores/1",
+			"time": 24,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm deletion": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm deletion": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				24
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm deletion": true
+				}
+			]
+		},
+		{
+			"id": "96b80fdb-22c8-499e-aa79-c0450c06c9f6",
+			"name": "DELETE - Remover Todos os Doadores (RESETAR BANCO DE DADOS)",
+			"url": "http://127.0.0.1:8000/api/v1/reset-database/",
+			"time": 25,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm deletion": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm deletion": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				25
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm deletion": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 281,
+	"collection": {
+		"requests": [
+			{
+				"id": "166bb919-7f4e-458d-b81c-ded4f2cfde0b",
+				"method": "DELETE"
+			},
+			{
+				"id": "aeb9c40e-97e4-4f7e-ade8-a1f99e4d10f2",
+				"method": "GET"
+			},
+			{
+				"id": "872ad27a-7515-41e4-972a-9705db32d0b5",
+				"method": "GET"
+			},
+			{
+				"id": "ee2be369-eff9-4748-8e11-c4773fbbb7fc",
+				"method": "POST"
+			},
+			{
+				"id": "a3088dce-d14f-4b21-ab91-b8869c936e4e",
+				"method": "PUT"
+			},
+			{
+				"id": "0ba6d428-a3b6-498f-a7f9-68e687cda133",
+				"method": "GET"
+			},
+			{
+				"id": "5c84b818-9cb9-4503-8573-c59d90471326",
+				"method": "PATCH"
+			},
+			{
+				"id": "1e14ae0a-1a41-4fe6-a96c-41d575202f85",
+				"method": "PATCH"
+			},
+			{
+				"id": "66f9534a-4ae3-4983-986b-beb431cd7d69",
+				"method": "DELETE"
+			},
+			{
+				"id": "96b80fdb-22c8-499e-aa79-c0450c06c9f6",
+				"method": "DELETE"
+			}
+		]
+	}
+}
